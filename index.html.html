@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Student Management System</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f2f5f9;
+    color:#222;
+}
+
+body.dark{
+    background:#111827;
+    color:#eee;
+}
+
+.login-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#071e26,#126e75);
+}
+
+.login-box{
+    width:380px;
+    padding:35px;
+    background:white;
+    border-radius:20px;
+    box-shadow:0 15px 40px #0006;
+    animation:show .7s ease;
+}
+
+.login-box h1{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.login-box input{
+    width:100%;
+    padding:13px;
+    margin:8px 0 18px;
+    border:1px solid #aaa;
+    border-radius:8px;
+}
+
+.btn{
+    border:0;
+    padding:11px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    margin:4px;
+}
+
+.primary{
+    background:#00b894;
+    color:white;
+}
+
+.danger{
+    background:#e74c3c;
+    color:white;
+}
+
+.warning{
+    background:#f1c40f;
+}
+
+.info{
+    background:#3498db;
+    color:white;
+}
+
+.login-btn{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:25px;
+    background:#00b894;
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+}
+
+.error{
+    color:red;
+    text-align:center;
+    margin-top:10px;
+}
+
+/* DASHBOARD */
+
+#app{
+    display:none;
+}
+
+header{
+    background:#073b4c;
+    color:white;
+    padding:17px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+header h1{
+    font-size:23px;
+}
+
+nav{
+    background:#0b5563;
+    display:flex;
+    flex-wrap:wrap;
+    padding:8px;
+    gap:5px;
+}
+
+nav button{
+    background:transparent;
+    border:1px solid #ffffff55;
+    color:white;
+    padding:10px 14px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+nav button:hover{
+    background:#00b894;
+}
+
+.container{
+    width:94%;
+    max-width:1250px;
+    margin:25px auto;
+}
+
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+    animation:show .4s ease;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.card{
+    padding:25px;
+    border-radius:15px;
+    background:white;
+    box-shadow:0 4px 15px #0002;
+    text-align:center;
+}
+
+.dark .card,
+.dark .form-box,
+.dark .table-box{
+    background:#1f2937;
+}
+
+.card h2{
+    font-size:35px;
+    color:#00a884;
+}
+
+/* FORMS */
+
+.form-box,
+.table-box{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    margin-bottom:25px;
+    box-shadow:0 4px 15px #0002;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:11px;
+    border:1px solid #aaa;
+    border-radius:7px;
+}
+
+.full{
+    grid-column:1/3;
+}
+
+/* TABLE */
+
+.table-scroll{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:750px;
+}
+
+th,td{
+    padding:11px;
+    border-bottom:1px solid #ddd;
+    text-align:left;
+}
+
+th{
+    background:#073b4c;
+    color:white;
+}
+
+.search{
+    padding:11px;
+    width:300px;
+    border:1px solid #aaa;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+/* ID CARD */
+
+.id-card{
+    width:350px;
+    margin:20px auto;
+    background:white;
+    color:#222;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 20px #0004;
+}
+
+.id-header{
+    background:#073b4c;
+    color:white;
+    text-align:center;
+    padding:18px;
+}
+
+.id-body{
+    padding:20px;
+    text-align:center;
+}
+
+.id-photo{
+    width:100px;
+    height:100px;
+    object-fit:cover;
+    border-radius:50%;
+    border:4px solid #00b894;
+}
+
+.id-body p{
+    margin:8px;
+}
+
+/* CERTIFICATE */
+
+.certificate{
+    background:white;
+    color:#222;
+    border:10px double #073b4c;
+    padding:60px;
+    text-align:center;
+    margin:20px auto;
+    max-width:900px;
+}
+
+.certificate h1{
+    font-size:40px;
+    margin-bottom:30px;
+}
+
+.certificate h2{
+    margin:25px;
+    color:#073b4c;
+}
+
+/* ANIMATION */
+
+@keyframes show{
+    from{
+        opacity:0;
+        transform:translateY(-20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:1;
+    }
+
+    header{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+
+@media(max-width:500px){
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .login-box{
+        width:90%;
+    }
+
+    .search{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<div class="login-page" id="loginPage">
+
+<div class="login-box">
+
+<h1>🔐 Login</h1>
+
+<form id="loginForm">
+
+<label>User ID</label>
+<input type="text" id="userID" required>
+
+<label>Password</label>
+<input type="password" id="password" required minlength="6">
+
+<button class="login-btn" type="submit">
+LOGIN
+</button>
+
+<p class="error" id="loginError"></p>
+
+</form>
+
+</div>
+</div>
+
+
+<!-- ================= APPLICATION ================= -->
+
+<div id="app">
+
+<header>
+
+<h1>🎓 Student Management System</h1>
+
+<div>
+<button class="btn info" onclick="toggleTheme()">
+🌙 Theme
+</button>
+
+<button class="btn danger" onclick="logout()">
+Logout
+</button>
+</div>
+
+</header>
+
+
+<nav>
+
+<button onclick="showSection('dashboard')">📊 Dashboard</button>
+<button onclick="showSection('students')">👨‍🎓 Students</button>
+<button onclick="showSection('courses')">📚 Courses</button>
+<button onclick="showSection('fees')">💰 Fees</button>
+<button onclick="showSection('documents')">📑 Documents</button>
+<button onclick="showSection('results')">📈 Results</button>
+<button onclick="showSection('idcard')">🪪 ID Card</button>
+<button onclick="showSection('certificate')">📜 Certificate</button>
+
+</nav>
+
+
+<div class="container">
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboard" class="section active">
+
+<h2>📊 Dashboard</h2>
+<br>
+
+<div class="cards">
+
+<div class="card">
+<h2 id="totalStudents">0</h2>
+<p>Total Students</p>
+</div>
+
+<div class="card">
+<h2 id="totalCourses">0</h2>
+<p>Total Courses</p>
+</div>
+
+<div class="card">
+<h2 id="totalFees">₹0</h2>
+<p>Total Fees</p>
+</div>
+
+<div class="card">
+<h2 id="maleCount">0</h2>
+<p>Male Students</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= STUDENTS ================= -->
+
+<section id="students" class="section">
+
+<div class="form-box">
+
+<h2>➕ Admission / Add Student</h2>
+<br>
+
+<form id="studentForm" class="form-grid">
+
+<div class="form-group">
+<label>Student Name *</label>
+<input id="sName" required>
+</div>
+
+<div class="form-group">
+<label>Parentage / Father's Name *</label>
+<input id="sParent" required>
+</div>
+
+<div class="form-group">
+<label>Admission Number</label>
+<input id="sAdmission">
+</div>
+
+<div class="form-group">
+<label>Admission Date</label>
+<input type="date" id="sDate">
+</div>
+
+<div class="form-group">
+<label>Date of Birth *</label>
+<input type="date" id="sDob" required>
+</div>
+
+<div class="form-group">
+<label>Gender *</label>
+<select id="sGender" required>
+<option value="">Select</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Qualification *</label>
+<input id="sQualification" required>
+</div>
+
+<div class="form-group">
+<label>Course</label>
+<input id="sCourse">
+</div>
+
+<div class="form-group">
+<label>Mobile *</label>
+<input id="sMobile" maxlength="10" pattern="[0-9]{10}" required>
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="sEmail">
+</div>
+
+<div class="form-group full">
+<label>Address *</label>
+<textarea id="sAddress" required></textarea>
+</div>
+
+<div class="form-group full">
+<label>Student Photo</label>
+<input type="file" id="sPhoto" accept="image/*">
+</div>
+
+<div class="full">
+
+<button class="btn primary" type="submit">
+ADD STUDENT
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+
+<div class="table-box">
+
+<h2>🔎 Student List</h2>
+<br>
+
+<input
+class="search"
+id="studentSearch"
+placeholder="Search student..."
+onkeyup="searchStudents()"
+>
+
+<div class="table-scroll">
+
+<table>
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Parentage</th>
+<th>Qualification</th>
+<th>Course</th>
+<th>Mobile</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="studentTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= COURSES ================= -->
+
+<section id="courses" class="section">
+
+<div class="form-box">
+
+<h2>📚 Course Management</h2>
+<br>
+
+<form id="courseForm">
+
+<input
+id="courseName"
+placeholder="Course Name"
+required
+>
+
+<input
+id="courseDuration"
+placeholder="Duration e.g. 1 Year"
+required
+>
+
+<input
+id="courseFee"
+type="number"
+placeholder="Course Fee"
+required
+>
+
+<button class="btn primary">
+ADD COURSE
+</button>
+
+</form>
+
+</div>
+
+
+<div class="table-box">
+
+<table>
+
+<thead>
+<tr>
+<th>Course</th>
+<th>Duration</th>
+<th>Fee</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="courseTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- ================= FEES ================= -->
+
+<section id="fees" class="section">
+
+<div class="form-box">
+
+<h2>💰 Fee Management</h2>
+<br>
+
+<form id="feeForm">
+
+<input
+id="feeStudent"
+placeholder="Student Name"
+required
+>
+
+<input
+id="totalFee"
+type="number"
+placeholder="Total Fee"
+required
+>
+
+<input
+id="paidFee"
+type="number"
+placeholder="Paid Amount"
+required
+>
+
+<input
+id="feeDate"
+type="date"
+required
+>
+
+<button class="btn primary">
+SAVE PAYMENT
+</button>
+
+</form>
+
+</div>
+
+
+<div class="table-box">
+
+<table>
+
+<thead>
+<tr>
+<th>Student</th>
+<th>Total Fee</th>
+<th>Paid</th>
+<th>Remaining</th>
+<th>Date</th>
+<th>Receipt</th>
+</tr>
+</thead>
+
+<tbody id="feeTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- ================= DOCUMENTS ================= -->
+
+<section id="documents" class="section">
+
+<div class="form-box">
+
+<h2>📑 Student Documents</h2>
+<br>
+
+<form id="documentForm">
+
+<input
+id="docStudent"
+placeholder="Student Name"
+required
+>
+
+<input
+id="docNumber"
+placeholder="Document Number"
+>
+
+<label>10th Marksheet</label>
+<input type="file">
+
+<br><br>
+
+<label>12th Marksheet</label>
+<input type="file">
+
+<br><br>
+
+<label>Other Document</label>
+<input type="file">
+
+<br><br>
+
+<button class="btn primary">
+SAVE DOCUMENT DETAILS
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+
+<!-- ================= RESULTS ================= -->
+
+<section id="results" class="section">
+
+<div class="form-box">
+
+<h2>📈 Marks / Result Management</h2>
+<br>
+
+<form id="resultForm">
+
+<input
+id="resultStudent"
+placeholder="Student Name"
+required
+>
+
+<input
+id="subject"
+placeholder="Subject"
+required
+>
+
+<input
+id="marks"
+type="number"
+placeholder="Marks"
+required
+>
+
+<input
+id="maxMarks"
+type="number"
+placeholder="Maximum Marks"
+required
+>
+
+<button class="btn primary">
+ADD RESULT
+</button>
+
+</form>
+
+</div>
+
+
+<div class="table-box">
+
+<table>
+
+<thead>
+<tr>
+<th>Student</th>
+<th>Subject</th>
+<th>Marks</th>
+<th>Max Marks</th>
+<th>Percentage</th>
+<th>Grade</th>
+</tr>
+</thead>
+
+<tbody id="resultTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- ================= ID CARD ================= -->
+
+<section id="idcard" class="section">
+
+<div class="form-box">
+
+<h2>🪪 Student ID Card Generator</h2>
+<br>
+
+<input
+id="idStudent"
+placeholder="Enter Student Name"
+>
+
+<button class="btn primary" onclick="generateIDCard()">
+GENERATE ID CARD
+</button>
+
+</div>
+
+<div id="idCardResult"></div>
+
+</section>
+
+
+<!-- ================= CERTIFICATE ================= -->
+
+<section id="certificate" class="section">
+
+<div class="form-box">
+
+<h2>📜 Certificate Generator</h2>
+<br>
+
+<input
+id="certStudent"
+placeholder="Student Name"
+>
+
+<input
+id="certCourse"
+placeholder="Course Name"
+>
+
+<input
+id="certDuration"
+placeholder="Course Duration"
+>
+
+<button class="btn primary" onclick="generateCertificate()">
+GENERATE CERTIFICATE
+</button>
+
+</div>
+
+<div id="certificateResult"></div>
+
+</section>
+
+
+</div>
+</div>
+
+
+<script>
+
+/* ================= LOGIN ================= */
+
+const ADMIN_ID = "amir0009";
+const ADMIN_PASSWORD = "000001";
+
+document.getElementById("loginForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+let id=document.getElementById("userID").value;
+let pass=document.getElementById("password").value;
+
+if(id===ADMIN_ID && pass===ADMIN_PASSWORD){
+
+document.getElementById("loginPage").style.display="none";
+document.getElementById("app").style.display="block";
+
+loadAll();
+
+}else{
+
+document.getElementById("loginError").innerText=
+"Invalid User ID or Password";
+
+}
+
+});
+
+
+/* ================= DATA ================= */
+
+let students=
+JSON.parse(localStorage.getItem("students"))||[];
+
+let courses=
+JSON.parse(localStorage.getItem("courses"))||[];
+
+let fees=
+JSON.parse(localStorage.getItem("fees"))||[];
+
+let results=
+JSON.parse(localStorage.getItem("results"))||[];
+
+
+/* ================= NAVIGATION ================= */
+
+function showSection(id){
+
+document.querySelectorAll(".section")
+.forEach(section=>{
+section.classList.remove("active");
+});
+
+document.getElementById(id)
+.classList.add("active");
+
+}
+
+
+/* ================= STUDENTS ================= */
+
+document.getElementById("studentForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+let student={
+name:sName.value,
+parent:sParent.value,
+admission:sAdmission.value,
+date:sDate.value,
+dob:sDob.value,
+gender:sGender.value,
+qualification:sQualification.value,
+course:sCourse.value,
+mobile:sMobile.value,
+email:sEmail.value,
+address:sAddress.value
+};
+
+students.push(student);
+
+localStorage.setItem(
+"students",
+JSON.stringify(students)
+);
+
+this.reset();
+
+loadStudents();
+
+alert("Student Added Successfully ✓");
+
+});
+
+
+function loadStudents(){
+
+let table=
+document.getElementById("studentTable");
+
+table.innerHTML="";
+
+students.forEach((s,i)=>{
+
+table.innerHTML+=`
+
+<tr>
+
+<td>${s.name}</td>
+
+<td>${s.parent}</td>
+
+<td>${s.qualification}</td>
+
+<td>${s.course}</td>
+
+<td>${s.mobile}</td>
+
+<td>
+
+<button class="btn danger"
+onclick="deleteStudent(${i})">
+Delete
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+updateDashboard();
+
+}
+
+
+function deleteStudent(i){
+
+if(confirm("Delete this student?")){
+
+students.splice(i,1);
+
+localStorage.setItem(
+"students",
+JSON.stringify(students)
+);
+
+loadStudents();
+
+}
+
+}
+
+
+function searchStudents(){
+
+let value=
+document.getElementById("studentSearch")
+.value.toLowerCase();
+
+document.querySelectorAll("#studentTable tr")
+.forEach(row=>{
+
+row.style.display=
+row.innerText.toLowerCase()
+.includes(value)
+?"":"none";
+
+});
+
+}
+
+
+/* ================= COURSES ================= */
+
+document.getElementById("courseForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+courses.push({
+
+name:courseName.value,
+duration:courseDuration.value,
+fee:courseFee.value
+
+});
+
+localStorage.setItem(
+"courses",
+JSON.stringify(courses)
+);
+
+this.reset();
+
+loadCourses();
+
+});
+
+
+function loadCourses(){
+
+let table=
+document.getElementById("courseTable");
+
+table.innerHTML="";
+
+courses.forEach((c,i)=>{
+
+table.innerHTML+=`
+
+<tr>
+
+<td>${c.name}</td>
+<td>${c.duration}</td>
+<td>₹${c.fee}</td>
+
+<td>
+
+<button
+class="btn danger"
+onclick="deleteCourse(${i})">
+Delete
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+updateDashboard();
+
+}
+
+
+function deleteCourse(i){
+
+courses.splice(i,1);
+
+localStorage.setItem(
+"courses",
+JSON.stringify(courses)
+);
+
+loadCourses();
+
+}
+
+
+/* ================= FEES ================= */
+
+document.getElementById("feeForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+let total=
+Number(totalFee.value);
+
+let paid=
+Number(paidFee.value);
+
+fees.push({
+
+student:feeStudent.value,
+total:total,
+paid:paid,
+remaining:total-paid,
+date:feeDate.value
+
+});
+
+localStorage.setItem(
+"fees",
+JSON.stringify(fees)
+);
+
+this.reset();
+
+loadFees();
+
+alert("Payment Saved ✓");
+
+});
+
+
+function loadFees(){
+
+let table=
+document.getElementById("feeTable");
+
+table.innerHTML="";
+
+fees.forEach((f,i)=>{
+
+table.innerHTML+=`
+
+<tr>
+
+<td>${f.student}</td>
+<td>₹${f.total}</td>
+<td>₹${f.paid}</td>
+<td>₹${f.remaining}</td>
+<td>${f.date}</td>
+
+<td>
+
+<button
+class="btn info"
+onclick="printReceipt(${i})">
+Receipt
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+updateDashboard();
+
+}
+
+
+function printReceipt(i){
+
+let f=fees[i];
+
+let w=window.open("");
+
+w.document.write(`
+
+<h1 style="text-align:center">
+Fee Receipt
+</h1>
+
+<hr>
+
+<p><b>Student:</b> ${f.student}</p>
+
+<p><b>Total Fee:</b> ₹${f.total}</p>
+
+<p><b>Paid:</b> ₹${f.paid}</p>
+
+<p><b>Remaining:</b> ₹${f.remaining}</p>
+
+<p><b>Date:</b> ${f.date}</p>
+
+<br>
+
+<p>Signature: __________________</p>
+
+`);
+
+w.document.close();
+
+w.print();
+
+}
+
+
+/* ================= RESULTS ================= */
+
+document.getElementById("resultForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+let marksValue=
+Number(marks.value);
+
+let maxValue=
+Number(maxMarks.value);
+
+let percentage=
+((marksValue/maxValue)*100).toFixed(2);
+
+let grade;
+
+if(percentage>=80)
+grade="A+";
+else if(percentage>=70)
+grade="A";
+else if(percentage>=60)
+grade="B";
+else if(percentage>=50)
+grade="C";
+else
+grade="F";
+
+results.push({
+
+student:resultStudent.value,
+subject:subject.value,
+marks:marksValue,
+max:maxValue,
+percentage:percentage,
+grade:grade
+
+});
+
+localStorage.setItem(
+"results",
+JSON.stringify(results)
+);
+
+this.reset();
+
+loadResults();
+
+});
+
+
+function loadResults(){
+
+let table=
+document.getElementById("resultTable");
+
+table.innerHTML="";
+
+results.forEach(r=>{
+
+table.innerHTML+=`
+
+<tr>
+
+<td>${r.student}</td>
+<td>${r.subject}</td>
+<td>${r.marks}</td>
+<td>${r.max}</td>
+<td>${r.percentage}%</td>
+<td>${r.grade}</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* ================= ID CARD ================= */
+
+function generateIDCard(){
+
+let name=
+document.getElementById("idStudent").value;
+
+let student=
+students.find(
+s=>s.name.toLowerCase()===name.toLowerCase()
+);
+
+if(!student){
+
+alert("Student not found");
+
+return;
+
+}
+
+document.getElementById("idCardResult")
+.innerHTML=`
+
+<div class="id-card">
+
+<div class="id-header">
+
+<h2>STUDENT ID CARD</h2>
+
+<p>Student Management System</p>
+
+</div>
+
+<div class="id-body">
+
+<div class="id-photo">
+👤
+</div>
+
+<h2>${student.name}</h2>
+
+<p><b>Parentage:</b> ${student.parent}</p>
+
+<p><b>Qualification:</b> ${student.qualification}</p>
+
+<p><b>Course:</b> ${student.course}</p>
+
+<p><b>Mobile:</b> ${student.mobile}</p>
+
+<button
+class="btn primary"
+onclick="window.print()">
+PRINT ID CARD
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* ================= CERTIFICATE ================= */
+
+function generateCertificate(){
+
+let name=
+document.getElementById("certStudent").value;
+
+let course=
+document.getElementById("certCourse").value;
+
+let duration=
+document.getElementById("certDuration").value;
+
+document.getElementById("certificateResult")
+.innerHTML=`
+
+<div class="certificate">
+
+<h1>CERTIFICATE</h1>
+
+<p>This is to certify that</p>
+
+<h2>${name}</h2>
+
+<p>has successfully completed the</p>
+
+<h2>${course}</h2>
+
+<p>course of duration</p>
+
+<h3>${duration}</h3>
+
+<br><br>
+
+<p>Date: __________________</p>
+
+<p>Director: __________________</p>
+
+</div>
+
+`;
+
+}
+
+
+/* ================= THEME ================= */
+
+function toggleTheme(){
+
+document.body.classList.toggle("dark");
+
+}
+
+
+/* ================= DASHBOARD ================= */
+
+function updateDashboard(){
+
+document.getElementById("totalStudents")
+.innerText=students.length;
+
+document.getElementById("totalCourses")
+.innerText=courses.length;
+
+let feeTotal=
+fees.reduce((sum,f)=>sum+Number(f.paid),0);
+
+document.getElementById("totalFees")
+.innerText="₹"+feeTotal;
+
+document.getElementById("maleCount")
+.innerText=
+students.filter(s=>s.gender==="Male").length;
+
+}
+
+
+/* ================= LOAD ALL ================= */
+
+function loadAll(){
+
+loadStudents();
+loadCourses();
+loadFees();
+loadResults();
+
+}
+
+
+/* ================= LOGOUT ================= */
+
+function logout(){
+
+document.getElementById("app").style.display="none";
+
+document.getElementById("loginPage").style.display="flex";
+
+document.getElementById("loginForm").reset();
+
+}
+
+</script>
+
+</body>
+</html>
